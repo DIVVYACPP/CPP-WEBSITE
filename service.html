@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Centralized Parking Plaza - Services</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --background-color: #f4f7f6;
+            --text-color: #333;
+            --card-background: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            height: 100%;
+        }
+
+        body {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            font-family: 'Inter', sans-serif;
+            background-color: #e6f2ff;
+            color: var(--text-color);
+            min-height: 100vh;
+            line-height: 1.6;
+            width: 100%;
+            overflow-x: hidden;
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #2c3e50;
+            padding: 1rem 2rem;
+            color: #fff;
+            position: relative;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .navbar-brand a {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .navbar-logo {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .navbar-nav {
+            display: flex;
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-link {
+            color: inherit;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            border-radius: 4px;
+        }
+
+        .nav-link:hover {
+            background-color: #2c7da0;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 5px;
+            z-index: 100;
+            background: transparent;
+            border: none;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background-color: white;
+            margin: 2px 0;
+            transition: 0.4s;
+        }
+
+        /* Services Section Styles */
+        .services {
+            padding: 2rem;
+            text-align: center;
+            flex: 1;
+        }
+
+        .services-heading {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: #2c3e50;
+        }
+
+        .services-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            justify-content: center;
+        }
+
+        .service-card {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            width: 33%;
+            max-width: 350px;
+            height: 400px; /* Reduced from 420px */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .service-card img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+        }
+
+        .service-card h3 {
+            font-size: 1.2rem;
+            margin: 0.5rem 0; /* Reduced margin */
+            color: #333;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0 10px;
+        }
+
+        .service-card p {
+            font-size: 1rem;
+            padding: 0 1rem 0.5rem; /* Reduced bottom padding */
+            color: #555;
+            text-align: justify-all;
+            margin: 0; /* Added to remove any default margins */
+        }
+
+        /* Footer Styles */
+        .footer {
+            background-color: #2c3e50;
+            color: #fff;
+            padding: 1rem;
+            text-align: center;
+            font-size: 0.8rem;
+            line-height: 1.5;
+            width: 100%;
+            margin-top: auto;
+        }
+
+        .footer span {
+            font-weight: bold;
+            color: #f39c12;
+        }
+
+        /* Responsive Styles */
+        @media screen and (max-width: 1024px) {
+            .navbar {
+                padding: 0.8rem 1.5rem;
+            }
+
+            .navbar-brand a {
+                font-size: 1.3rem;
+            }
+
+            .nav-link {
+                padding: 0.5rem 0.8rem;
+                font-size: 0.95rem;
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            .navbar {
+                padding: 0.8rem;
+            }
+
+            .navbar-brand a {
+                font-size: 1.2rem;
+            }
+
+            .navbar-logo {
+                width: 30px;
+                height: 30px;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .navbar-nav {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background-color: #2c3e50;
+                flex-direction: column;
+                align-items: center;
+                padding: 0;
+                z-index: 99;
+            }
+
+            .navbar-nav.show {
+                display: flex;
+            }
+
+            .nav-link {
+                width: 100%;
+                text-align: center;
+                padding: 1rem 0;
+                border-top: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .service-card {
+                width: 45%;
+                height: 400px;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .service-card {
+                width: 100%;
+                height: 400px;
+            }
+        }
+
+        /* Hamburger Animation */
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(45deg) translate(-5px, -6px);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="navbar-brand">
+                <img src="images/services/cpp.webp" alt="Logo" class="navbar-logo">
+                <a href="#">Centralized Parking Plaza</a>
+            </div>
+            
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <div class="navbar-nav">
+                <a href="index.html" class="nav-link">HOME</a>
+                <a href="about.html" class="nav-link">ABOUT US</a>
+                <a href="103.178.105.206:9022/login" class="nav-link">TRAFFIC STATUS</a>
+                <a href="service.html" class="nav-link">SERVICES</a>
+                <a href="contact.html" class="nav-link">CONTACT US</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="services">
+            <h2 class="services-heading">Our Services</h2>
+            <div class="services-container">
+                <!-- Service Card 1 -->
+                <div class="service-card">
+                    <img src="images/services/large_files/in gate.webp" alt="Service 1">
+                    <h3>INGATE AUTOMATION</h3>
+                    <p>Automated system captures vehicle data, weighs the vehicle, and verifies driver details, making entry smooth and efficient.</p>
+                </div>
+                <!-- Service Card 2 -->
+                <div class="service-card">
+                    <img src="images/services/large_files/Parking.webp" alt="Service 2">
+                    <h3>PARKING</h3>
+                    <p>Initially had a 2,800-truck capacity, now adjusted for 2,200 with buffer and examination zones to enhance flow.</p>
+                </div>
+                <!-- Service Card 3 -->
+                <div class="service-card">
+                    <img src="images/services/large_files/buffer.webp" alt="Service 3">
+                    <h3>BUFFER</h3>
+                    <p>Provides secure storage for up to 4,500 containers during vessel delays, ensuring continuity in shipping operations.</p>
+                </div>
+                <!-- Service Card 4 -->
+                <div class="service-card">
+                    <img src="images/services/large_files/reeferpoints.webp" alt="Service 4">
+                    <h3>REEFER POINTS</h3>
+                    <p>Facility with 135 plug points for refrigerated containers to keep perishable goods at optimal temperatures</p>
+                </div>
+                <!-- Service Card 5 -->
+                <div class="service-card">
+                    <img src="images/services/large_files/customHouse.webp" alt="Service 5">
+                    <h3>CUSTOM HOUSE</h3>
+                    <p>Operates 24/7 for in-house customs with open examination for export containers to ensure compliance and secure trade.</p>
+                </div>
+                <!-- Service Card 6 -->
+                <div class="service-card">
+                    <img src="images/services/large_files/canteen.webp" alt="Service 6">
+                    <h3>CANTEEN</h3>
+                    <p>Has a capacity of 150 seats, offering meals and refreshments for drivers to support comfort during their stay.</p>
+                </div>
+                <!-- Service Card 7 -->
+                <div class="service-card">
+                    <img src="images/services/large_files/dormetry.webp" alt="Service 7">
+                    <h3>DORMITORY</h3>
+                    <p>Provides a 50-bed facility for driver rest, enabling recovery from long hours on the road.</p>
+                </div>
+                <!-- Service Card 8 -->
+                <div class="service-card">
+                    <img src="images/services/large_files/clinic.webp" alt="Service 8">
+                    <h3>CLINIC</h3>
+                    <p>Supported by JNPA CSR, this clinic provides free essential medical services to drivers, focusing on their health and safety.</p>
+                </div>
+                <!-- Service Card 9 -->
+                <div class="service-card">
+                    <img src="images/services/large_files/Driver training Center.webp" alt="Service 9">
+                    <h3>DRIVER TRAINING CENTER</h3>
+                    <p>Offers training on traffic rules and healthier lifestyles, emphasizing alcohol and addiction recovery for safer driving practices.</p>
+                </div>
+                <!-- Service Card 10 -->
+                <div class="service-card">
+                    <img src="images/services/large_files/examination.webp" alt="Service 10">
+                    <h3>EXAMINATION</h3>
+                    <p>Containers marked for inspection go to an open examination area where contents are checked for compliance before export.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        © 2024 <span>DIVVYA CPP PVT LTD.</span> All rights reserved 
+    </footer>
+
+    <script>
+        const hamburger = document.querySelector('.hamburger');
+        const navMenu = document.querySelector('.navbar-nav');
+
+        hamburger.addEventListener('click', (e) => {
+            e.stopPropagation();
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('show');
+        });
+
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('show');
+            });
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!hamburger.contains(e.target) && !navMenu.contains(e.target)) {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('show');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Centralized Parking Plaza</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            height: 100%;
+        }
+
+        body {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            font-family: 'Inter', sans-serif;
+            background-color: #e6f2ff;
+            color: #333;
+            min-height: 100vh;
+            line-height: 1.6;
+            width: 100%;
+            overflow-x: hidden;
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #2c3e50;
+            padding: 1rem 2rem;
+            color: #fff;
+            position: relative;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .navbar-brand a {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .navbar-logo {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .navbar-nav {
+            display: flex;
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-link {
+            color: inherit;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            border-radius: 4px;
+        }
+
+        .nav-link:hover {
+            background-color: #2c7da0;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 5px;
+            z-index: 100;
+            background: transparent;
+            border: none;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background-color: white;
+            margin: 2px 0;
+            transition: 0.4s;
+        }
+
+        /* Slideshow Styles */
+        .slideshow-container {
+            width: 100%;
+            position: relative;
+            margin: 0;
+            padding: 0;
+        }
+
+        .mySlides {
+            display: none;
+        }
+
+        .mySlides img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+        }
+
+        /* Empowering Trade Section */
+        .empowering-trade {
+            background-color: #d1e8f7;
+            padding: 2rem 0;
+            margin: 1rem 0;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .empowering-trade h2 {
+            font-size: 2rem;
+            color: black;
+            margin-bottom: 1rem;
+        }
+
+        .trade-container {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            padding: 0 1rem;
+        }
+
+        .trade-box {
+            width: 250px;
+            height: 180px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #1a5f7a;
+            border-radius: 10px;
+            background-color: #ffffff;
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .trade-box:hover {
+            transform: scale(1.05);
+        }
+
+        .trade-box-link {
+            text-decoration: none;
+            display: block;
+        }
+
+        .trade-box img {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 0.5rem;
+        }
+
+        .trade-name {
+            font-size: 1rem;
+            font-weight: bold;
+            color: black;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 2rem 1rem;
+            background-color: transparent;
+            margin: 0;
+        }
+
+        .hero-container {
+            display: flex;
+            width: 100%;
+            max-width: 1200px;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .hero-text {
+            flex: 2;
+            color: black;
+            text-align: justify;
+            background-color: #ffffff;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .hero-text h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #2c3e50;
+            text-align: center;
+        }
+
+        .hero-text p, .hero-text ul li {
+            font-size: 1rem;
+            line-height: 1.3;
+            margin-bottom: 1rem;
+        }
+
+        .hero-text ul {
+            padding-left: 1.5rem;
+        }
+
+        .hero-team {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .hero-card {
+            text-align: center;
+            padding: 1rem;
+            background-color: #ffffff;
+            border: 2px solid #1a5f7a;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 300px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .hero-logo {
+            width: 80px;
+            height: auto;
+            margin-bottom: 1rem;
+        }
+
+        .hero-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .hero-name {
+            margin-top: 1rem;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #4a4a4a;
+        }
+
+        .hero-designation {
+            font-size: 1rem;
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #2c3e50;
+            color: #fff;
+            padding: 1rem;
+            text-align: center;
+            font-size: 0.8rem;
+            line-height: 1.5;
+            width: 100%;
+            margin-top: auto;
+        }
+
+        .footer span {
+            font-weight: bold;
+            color: #f39c12;
+        }
+
+        /* Responsive Styles */
+        @media screen and (max-width: 1024px) {
+            .navbar {
+                padding: 0.8rem 1.5rem;
+            }
+
+            .navbar-brand a {
+                font-size: 1.3rem;
+            }
+
+            .nav-link {
+                padding: 0.5rem 0.8rem;
+                font-size: 0.95rem;
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            .navbar {
+                padding: 0.8rem;
+            }
+
+            .navbar-brand a {
+                font-size: 1.2rem;
+            }
+
+            .navbar-logo {
+                width: 30px;
+                height: 30px;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .navbar-nav {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background-color: #2c3e50;
+                flex-direction: column;
+                align-items: center;
+                padding: 0;
+                z-index: 99;
+            }
+
+            .navbar-nav.show {
+                display: flex;
+            }
+
+            .nav-link {
+                width: 100%;
+                text-align: center;
+                padding: 1rem 0;
+                border-top: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .mySlides img {
+                height: 200px;
+            }
+
+            .hero-text h2 {
+                font-size: 2rem;
+            }
+
+            .hero-text p, .hero-text ul li {
+                font-size: 0.9rem;
+            }
+
+            .trade-box {
+                width: 160px;
+                height: 160px;
+            }
+
+            .hero-team {
+                width: 100%;
+                align-items: center;
+                
+            }
+
+            .hero-card {
+                max-width: 100%;
+            }
+
+            .hero-image {
+                height: auto;
+            }
+        }
+
+        /* Hamburger Animation */
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(45deg) translate(-5px, -6px);
+        }
+
+        .wrapper {
+            margin: 50px auto;
+            display: flex;
+            max-width: 650px;
+            width: 100%;
+            height: 400px;
+            background: #fff;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            border-radius: 12px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="navbar-brand">
+                <img src="images/services/cpp.webp" alt="Logo" class="navbar-logo">
+                <a href="#">Centralized Parking Plaza</a>
+            </div>
+            
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <div class="navbar-nav">
+                <a href="index.html" class="nav-link">HOME</a>
+                <a href="about.html" class="nav-link">ABOUT US</a>
+                <a href="103.178.105.206:9022/login" class="nav-link">TRAFFIC STATUS</a>
+                <a href="service.html" class="nav-link">SERVICES</a>
+                <a href="contact.html" class="nav-link">CONTACT US</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="slideshow-container">
+        <div class="mySlides fade">
+            <img src="images/slideshow/image1.webp" alt="Slide 1">
+        </div>
+        <div class="mySlides fade">
+            <img src="images/slideshow/image5.webp" alt="Slide 2">
+        </div>
+        <div class="mySlides fade">
+            <img src="images/slideshow/image4.webp" alt="Slide 3">
+        </div>
+    </div>
+
+    <section class="empowering-trade">
+        <h2>Empowering Trade</h2>
+        <div class="trade-container">
+            <div class="trade-box">
+                <a href="https://www.jnport.gov.in/page/window-schedule/TERJb0NNekhDcE4xTWVwZjNpdnBUUT09" class="trade-box-link">
+                    <img src="images/services/2b4ff347-a232-4407-90f7-ed2a82d3543f.webp" alt="Trade 1">
+                    <p class="trade-name">WINDOW SCHEDULE</p>
+                </a>
+            </div>
+            <div class="trade-box">
+                <a href="https://www.jnport.gov.in/page/berthing-report/M2VlS0pwUXZ3akhSV0E0RDFUVlhxQT09" target="_blank" class="trade-box-link">
+                    <img src="images/services/service2.webp" alt="Trade 2">
+                    <p class="trade-name">DAILY BERTHING STATUS</p>
+                </a>
+            </div>
+            <div class="trade-box">
+                <a href="tariff.html" class="trade-box-link">
+                    <img src="images/services/service3.webp" alt="Trade 3">
+                    <p class="trade-name">TARIFF</p>
+                </a>
+            </div>
+            <div class="trade-box">
+                <a href="quicklink.html" class="trade-box-link">
+                    <img src="images/services/service4.webp" alt="Trade 4">
+                    <p class="trade-name">QUICK LINKS</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+   <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-container">
+      <div class="hero-text">
+      <h2>Centralized Parking Plaza (CPP)</h2>
+      <p>
+        Jawaharlal Nehru Port Authority (JNPA) has opened a new Centralized Parking Plaza (CPP) for container tractor trailers with Customs facilitation, as part of its efforts to promote ease of doing business. The parking plaza, spread across 45 hectares, has a capacity to park 2,200 tractor trailers at a time. The plaza has been built exclusively to integrate the parking of tractor trailers carrying factory stuffed export containers at one location instead of multiple locations earlier. 
+      </p>
+      <p>
+        This will help integrate document processing by Customs with state-of-the-art facilities and service provision. JNPA is the only port in India which has planned for a facility of this scale, and CPP is a key initiative to streamline traffic movement and improve port efficiencies using IT services. At the same time, it provides convenience facilities and amenities at very nominal rates to truck drivers who travel long distances to reach the Port.
+      </p>
+      <p>
+        The Centralized Parking Plaza is an important part of our constant endeavor to provide ease of doing business within the Port. The plaza will be managed using a Real-Time Parking Management System and has WiFi provision within the premises. It features dormitories for truck drivers, canteens, well-maintained toilets, a vehicle repair area, and a commercial building. Guards and staff at entry gates ensure smooth entry formalities. JNPA has appointed Nirmala Auto Care Centre for operation, management, and maintenance of the Centralized Parking Plaza.
+      </p>
+      
+      <span class="plaza-system">
+        <b>The plaza system will ease the movement of container trucks on JNPA roads and will help respective terminals plan their tractor trailer movements in a better way.</b>
+      </span>
+      <br>
+      <br>
+      <span class="ease-of-business-centralized-parking-plaza">
+        Under Ease of Business, the Centralized Parking Plaza offers the following services under one roof:
+        <ul>
+          <br>
+          <li>Vehicle Parking Capacity of 2,200 TTs.</li>
+          <li>In-House Customs House with 24/7 operation.</li>
+          <li>Dormitory facility for Drivers, with a capacity of 50 beds.</li>
+          <li>Free Health and Eye Check-Up Camps. Medical Insurance for Drivers.</li>
+          <li>Canteen facility with a seating capacity of 150.</li>
+          <li>Free Clinic for Drivers.</li>
+          <li>Hygienic Toilets and Washrooms.</li>
+          <li>Offices for Transporters/CHA's with Internet connectivity.</li>
+          <li>Customs Open Examination of Export Containers.</li>
+          <li>130 nos. of Reefer Plug Points for Reefer Containers.</li>
+          <li>Buffer Zone for Containers in case of Vessel delay or Vessel cut-off. Capacity of Buffer Zone is 4,500 Containers.</li>
+          <li>CEAC Cell (Centralized Export Assessment Cell) for exporters by Customs.</li>
+          <li>FSP Cell (Factory Stuffing Permission Cell).</li>
+        </ul>
+      </span>
+    </div>
+
+      <div class="hero-team">
+        <div class="hero-card">
+          <img src="images/services/jnpa1.webp" alt="Logo" class="hero-logo">
+          <img src="images/services/u.webp" alt="Hero 1" class="hero-image">
+          <h3 class="hero-name">SHRI. UNMESH SHARAD WAGH, IRS</h3>
+          <p class="hero-designation">CHAIRMAN, JAWAHARLAL NEHRU PORT AUTHORITY</p>
+      </div>
+      <div class="hero-card">
+        <img src="images/services/jnch.webp" alt="Logo" class="hero-logo">
+        <img src="images/services/v.webp" alt="Hero 2" class="hero-image">
+        <h3 class="hero-name">SHRI. VIMAL KUMAR SRIVASTAV</h3>
+        <p class="hero-designation">CHIEF COMMISSIONER OF CUSTOM</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer Section -->
+<footer class="footer">
+  © 2024 <span>DIVVYA CPP PVT LTD.</span> All rights reserved 
+</footer>
+<script>
+    // Automatic Slide Show Function
+    let slideIndex = 0;
+    function showSlides() {
+      let slides = document.getElementsByClassName("mySlides");
+      for (let i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+      }
+      slideIndex++;
+      if (slideIndex > slides.length) { slideIndex = 1; }
+      slides[slideIndex - 1].style.display = "block";
+      setTimeout(showSlides, 5000);
+    }
+    window.onload = showSlides;
+
+    document.querySelector('.navbar-toggle').addEventListener('click', function() {
+      document.querySelector('.navbar-nav').classList.toggle('show');
+      
+      const hamburger = this.querySelector('.hamburger');
+      hamburger.classList.toggle('active');
+    });
+  </script>
+
+    <script>
+        const hamburger = document.querySelector('.hamburger');
+        const navMenu = document.querySelector('.navbar-nav');
+
+        hamburger.addEventListener('click', (e) => {
+            e.stopPropagation();
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('show');
+        });
+
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('show');
+            });
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!hamburger.contains(e.target) && !navMenu.contains(e.target)) {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('show');
+            }
+        });
+    </script>
+</body>
+</html>
